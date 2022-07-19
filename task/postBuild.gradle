@@ -45,13 +45,13 @@ def editStartScriptAppHomeVar = tasks.register('editStartScriptAppHomeVar') {
         def isWindowsOs = current().isWindows()
         if (isWindowsOs) {
             // Delete the *nix script, not the windows .bat script.
-            delete fileTree(dir: projectDir, include: 'bisq-pricenode')
+            delete fileTree(dir: projectDir, include: project.name)
             // Reset APP_HOME variable in windows .bat script.
             def windowsScriptFile = file("${projectDir}/${project.name}.bat")
             windowsScriptFile.text = windowsScriptFile.text.replace('set APP_HOME=%DIRNAME%..', 'set APP_HOME=%DIRNAME%')
         } else {
             // Delete the windows .bat script, not the *nix script alone.
-            delete fileTree(dir: projectDir, include: 'bisq-pricenode.bat')
+            delete fileTree(dir: projectDir, include: "${project.name}.bat")
             // Reset APP_HOME variable in *nix script.
             def nixScriptFile = file("${projectDir}/${project.name}")
             def oldAppHome = 'APP_HOME=$( cd "${APP_HOME:-./}.." && pwd -P ) || exit'
